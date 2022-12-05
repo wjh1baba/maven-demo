@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="tb_user.sql (1)" type="DatabaseScript" editBeforeRun="true" singleton="false" nameIsGenerated="true">
+    <script-mode>FILE</script-mode>
+    <data-source id="9d730239-29d4-45ef-ae7b-a113abad9103" namespace="schema/&quot;java_jdbc&quot;" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="tb_user.sql" run_configuration_type="DatabaseScript" />
+    </method>
+  </configuration>
+</component>

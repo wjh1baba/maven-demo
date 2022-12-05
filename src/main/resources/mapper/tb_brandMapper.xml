@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--名称空间-->
+<!--namespace这里不能用/-->
+<mapper namespace="mapper.tb_brandMapper">
+
+    <!--
+    resultMap:
+    1.定义resultMap标签
+    2.修改sql<select>语句中  resultType属性 改为 resultMap属性
+    演示:
+    1.
+     如果sql中的字段与java的属性名不一致  可以使用    type的类型
+     <resultMap id="brandResultMap" type="class_.Brand">
+           俩个子标签
+           id 完成主键字段映射,result 完成一般字段映射
+         <result column="sql中的名" property="java中的属性名"/>
+     </resultMap>
+
+     2.
+        <select id="selectAll" resultMap="class_.Brand">
+            select * from tb_brand;
+        </select>
+       -->
+
+    <!--这里resultType是返回类型-->
+    <select id="selectAll" resultType="class_.Brand">
+        select * from tb_brand;
+    </select>
+
+
+</mapper>
