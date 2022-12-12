@@ -7,8 +7,12 @@
 <!--namespace这里不能用/-->
 <mapper namespace="mapper.tb_brandMapper">
 
+
+    <select id="selectAll" resultType="class_.Brand">
+        select * from tb_brand;
+    </select>
     <!--
-    resultMap:
+    resultMap:      如果sql中的字段与java的属性名不一致 
     1.定义resultMap标签
     2.修改sql<select>语句中  resultType属性 改为 resultMap属性
     演示:
@@ -27,9 +31,117 @@
        -->
 
     <!--这里resultType是返回类型-->
-    <select id="selectAll" resultType="class_.Brand">
-        select * from tb_brand;
+    <select id="selectById" resultType="class_.Brand">
+        #         select * from tb_brand where id = ${id};
+        select * from tb_brand where id = #{id};
+    </select>
+
+    <select id="selectById1" resultType="class_.Brand">
+#         select * from tb_brand where id 小于号 #{id};
+
+#       这里小于号写不了  需要特殊字符处理:
+#         1.转义字符:
+#         select * from tb_brand where id &lt; #{id};
+
+#         2.CDATA区  打个CD就出来了
+        select * from tb_brand where id <![CDATA[
+                                         <
+                                     ]]> #{id};
     </select>
 
 
+
+<!-- 多条件查询  第一种方法  1=1恒等式-->
+<!--    <select id="selectByCondition" resultType="class_.Brand">-->
+<!--        select * from tb_brand where 1=1-->
+<!--             <if test="status != null">-->
+<!--                and status = #{status}-->
+<!--             </if>-->
+<!--            <if test="companyName != null and companyName != ''">-->
+<!--                and companyName like #{companyName}-->
+<!--            </if>-->
+<!--            <if test="brandName != null and brandName != ''">-->
+<!--                and brandName like #{brandName}-->
+<!--            </if>-->
+<!--    </select>-->
+
+<!--第二种 where-->
+    <select id="selectByCondition" resultType="class_.Brand">
+        select * from tb_brand
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and companyName like #{companyName}
+            </if>
+            <if test="brandName != null and brandName != ''">
+                and brandName like #{brandName}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByConditionSingle" resultType="class_.Brand">
+        select * from tb_brand
+        <where>
+<!-- choose相当于switch ,when相当于case ，otherwise相当于default-->
+            <choose>
+                <when test="status != null">
+                    status = #{status}
+                </when>
+                <when test="companyName != null and companyName != ''">
+                    companyName like #{companyName}
+                </when>
+                <when test="brandName != null and brandName != ''">
+                    brandName like #{brandName}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_brand (brandName, companyName, ordered, description, status)
+        values (#{brandName},#{companyName},#{ordered},#{description},#{status});
+    </insert>
+
+    <update id="updata">
+        update tb_brand
+        <set>
+            <if test="brandName != null">
+                brandName = #{brandName},
+            </if>
+            <if test="companyName != null">
+                companyName = #{companyName},
+            </if>
+            <if test="ordered != null">
+                ordered = #{ordered},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+
+        where id = #{id}
+    </update>
+
+<!--mybatis会将数组参数，封装为一个Map集合-->
+<!--默认:array = 数组-->
+<!--使用@Param注解改变map集合的默认key的名称-->
+    <delete id="del">
+        delete from tb_brand where id = #{id}
+    </delete>
+
+
+    <delete id="delids">
+        delete from tb_brand where id in (
+#           collection 写数组集合  如果使用@Param注解接口,可以使用注解的值
+
+            <foreach collection="array" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
+    </delete>
 </mapper>

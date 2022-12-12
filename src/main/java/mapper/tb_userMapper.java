@@ -8,4 +8,5 @@ public interface tb_userMapper {
 
 
     List<User> selectAll();
+
 }

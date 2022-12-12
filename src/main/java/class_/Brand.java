@@ -14,8 +14,8 @@ public class Brand {
 //    状态:0:禁用   1:启用
     private Integer status;
 
-    public Brand(Integer id) {
-        this.id = id;
+    public Brand() {
+
     }
 
     public Brand(Integer id, String brandName, String companyName, Integer ordered, String description, Integer status) {
